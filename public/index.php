@@ -28,8 +28,35 @@ use proyecto\Controller\ClasesController;
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
 
-// Metodos GET //
-Router::get('/prueba', [crearPersonaController::class, "prueba"]);
+//Metodos post//
+
+
+Router::post('/registro', [PersonasController::class, "registroclientes"]);
+Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
+Router::post('/insertarproducto', [ProductosController::class, "insertarProducto"]);
+Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
+Router::post('/registro',[PersonasController::class,"registroclientes"]);
+Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
+Router::post('/login',[LoginController::class,"login"]);
+
+Router::post('/orden/crear', [CarritoController::class, "crearOrdenVenta"]);
+Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
+Router::post('/pago/registrar', [CarritoController::class, "registrarPago"]);
+
+// Rutas DELETE
+Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
+Router::delete('/empleado/eliminar', [EmpleadosController::class, "eliminarEmpleado"]);
+// Metodos get //
+Router::get('/prueba', function () {
+    $data = [
+        'nombre' => 'Juan',
+        'edad' => 25,
+        'pais' => 'México'
+    ];
+
+    $r= new Success($data);
+    return $r->Send();
+});
 Router::get('/empleados', [Empleados::class, "mostrarEmpleados"]);
 Router::get('/empleado/obtener', [EmpleadosController::class, "obtenerEmpleadoPorId"]);
 Router::get('/socios', [MostrarSociosController::class, "mostrarsocios"]);
