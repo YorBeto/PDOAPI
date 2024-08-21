@@ -2,9 +2,9 @@
 
 namespace proyecto\Controller;
 
-use proyecto\Models\Models;
-use proyecto\Models\Table;
-use proyecto\Auth;
+use proyecto\Models\User;
+use proyecto\Response\Failure;
+use proyecto\Response\Success;
 
 class LoginController
 {
@@ -12,21 +12,30 @@ class LoginController
         // Obtén el cuerpo de la solicitud y decodifica el JSON
         $input = json_decode(file_get_contents('php://input'), true);
         
-        $correo = $dataObject->correo;
-        $contrasena = $dataObject->contrasena;
-
-
-        $loguin=new Table();
-        $loguearse=$loguin->query("SELECT
-        PERSONA.NOMBRE AS nombre,               
-        PERSONA.APELLIDO AS apellido,           
-        PERSONA.CORREO AS correo,               
-        USUARIOS.ID_USUARIO AS id_usuario,      
-        CAST(AES_DECRYPT(USUARIOS.CONTRASEÑA, 'administrador') AS CHAR) AS contrasena
-    FROM USUARIOS
-    INNER JOIN PERSONA ON USUARIOS.ID_USUARIO = PERSONA.ID_USUARIO
-    WHERE PERSONA.CORREO = '$correo'");
-
-    Models::sendCorrect($loguearse);
+        // Verifica si los datos fueron decodificados correctamente
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return (new Failure(["msg" => "Error al procesar datos JSON."], 400))->Send();
+        }
+    
+        // Obtén los datos del JSON
+        $identificador = $input['correo'] ?? null; // Puede ser correo o ID de socio
+        $contrasena = $input['contrasena'] ?? null;
+    
+        // Verifica los datos recibidos
+        if (!$identificador || !$contrasena) {
+            return (new Failure(["msg" => "Datos incompletos."], 400))->Send();
+        }
+    
+        // Utiliza el método auth para autenticar clientes o socios
+        $resultado = User::auth($identificador, $contrasena);
+    
+        if ($resultado['success']) {
+            return (new Success([
+                "usuario" => $resultado['usuario'],
+                "_token" => $resultado['_token']
+            ]))->Send();
+        } else {
+            return (new Failure(["msg" => $resultado['msg']], 401))->Send();
+        }
     }
 }
