@@ -33,7 +33,6 @@ Router::get('/prueba', [crearPersonaController::class, "prueba"]);
 Router::get('/empleados', [Empleados::class, "mostrarEmpleados"]);
 Router::get('/empleado/obtener', [EmpleadosController::class, "obtenerEmpleadoPorId"]);
 Router::get('/socios', [MostrarSociosController::class, "mostrarsocios"]);
-Router::get('/citas', [inbody_citas::class, "mostrarcitas"]);
 Router::get('/categorias', [Categorias_productos::class, "obtenerCategorias"]);
 Router::get('/crearpersona', [crearPersonaController::class, "crearPersona"]);
 Router::get('/productos', [productos_servicios::class, "mostrarProductos"]);
