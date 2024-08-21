@@ -50,14 +50,14 @@ class User extends Models
             
                 $stmt = self::$pdo->prepare("
                     SELECT
-                        PERSONA.NOMBRE AS nombre,               -- Nombre del usuario
-                        PERSONA.APELLIDO AS apellido,           -- Apellido del usuario
-                        PERSONA.CORREO AS correo,               -- Correo electrónico del usuario
-                        USUARIOS.ID_USUARIO AS id_usuario,       -- ID del usuario
-                        CAST(AES_DECRYPT(USUARIOS.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
-                    FROM {$c->table} USUARIOS
-                    INNER JOIN PERSONA PERSONA ON USUARIOS.ID_USUARIO = PERSONA.ID_USUARIO
-                    WHERE PERSONA.CORREO = :identificador
+                        p.NOMBRE AS nombre,               -- Nombre del usuario
+                        p.APELLIDO AS apellido,           -- Apellido del usuario
+                        p.CORREO AS correo,               -- Correo electrónico del usuario
+                        u.ID_USUARIO AS id_usuario,       -- ID del usuario
+                        CAST(AES_DECRYPT(u.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
+                    FROM {$c->table} u
+                    INNER JOIN PERSONA p ON u.ID_USUARIO = p.ID_USUARIO
+                    WHERE p.CORREO = :identificador
                 ");
             } else {
              

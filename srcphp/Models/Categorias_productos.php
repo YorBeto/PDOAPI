@@ -15,6 +15,7 @@ class Categorias_productos Extends models {
         $categoria = new Table();
         $todaslascategorias = $categoria->query("SELECT ID_CATEGORIA, NOMBRE FROM CATEGORIA_PRODUCTOS");
 
-        Models::sendCorrect($todaslascategorias); 
+        $success=new Success($todaslascategorias);
+        return $success -> send();
     }
 } 
