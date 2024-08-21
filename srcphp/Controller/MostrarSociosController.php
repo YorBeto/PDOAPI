@@ -3,24 +3,23 @@
 namespace proyecto\Controller;
 
 use proyecto\Models\socios;
+use proyecto\Response\Success;
 use proyecto\Models\Table;
-use proyectto\Models\Models;
+
 
 class MostrarSociosController{
 
     public function mostrarsocios(){
 
         $socios=new Table();
-        $todoslossocios=$socios ->query("SELECT SOCIOS.ID_SOCIO,PERSONA.NOMBRE,SOCIOS.MEMBRESIA,
-        SOCIOS.FECHA_INICIO, SOCIOS.FECHA_FIN,SOCIOS.ESTADO_DE_MEMB
-        FROM PERSONA INNER JOIN CLIENTES ON PERSONA.ID_PERSONA = CLIENTES.ID_PERSONA
-        INNER JOIN SOCIOS ON SOCIOS.ID_CLIENTE = CLIENTES.ID_CLIENTES
-        WHERE SOCIOS.ESTADO_DE_MEMB = 'ACTIVO'");
+        $todoslossocios=$socios ->query("SELECT socios.id_socio as 'ID',persona.nombre as 'NOMBRE',socios.membresia as 'MEMBRESIA',
+        socios.fecha_inicio as 'FECHA DE INICIO', socios.fecha_fin as 'FECHA DE CADUCIDAD',socios.estado_de_memb as 'ESTADO DE MEMBRESIA'
+        FROM persona INNER JOIN clientes ON persona.id_persona = clientes.id_persona
+        INNER JOIN socios ON socios.id_cliente = clientes.id_clientes
+        WHERE socios.estado_de_memb = 'ACTIVO';");
 
-
-        return Models::sendCorrect($todoslossocios);
+        $success=new Success($todoslossocios);
+        return $success ->send();
     }
 }
-
-
 
