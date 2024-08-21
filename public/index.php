@@ -26,8 +26,6 @@ use proyecto\Controller\CarritoController;
 Router::headers();
 
 //Metodos post//
-
-
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
 Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
 Router::post('/insertarproducto', [ProductosController::class, "insertarProducto"]);
@@ -37,9 +35,8 @@ Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados
 Router::post('/loginClientes',[LoginController::class,"login"]);
 Router::post('/loginSocios',[LoginSociosController::class,"loginsocios"]);
 
-Router::post('/orden/crear', [CarritoController::class, "crearOrdenVenta"]);
-Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
-Router::post('/pago/registrar', [CarritoController::class, "registrarPago"]);
+Router::post('/pago', [CarritoController::class, "Carrito"]);
+
 
 // Rutas DELETE
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
