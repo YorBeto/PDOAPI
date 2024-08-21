@@ -23,7 +23,7 @@ use proyecto\Controller\ProductosController;
 use proyecto\Controller\EmpleadosController;
 use proyecto\Controller\CarritoController;
 // Metodo header para poder resivir solicitudes de cualquier dominio //
-//Router::headers();
+Router::headers();
 
 //Metodos post//
 

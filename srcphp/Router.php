@@ -19,7 +19,7 @@ class Router
 
     public static function route($route, $path_to_include)
     {
-       // Router::headers();
+       Router::headers();
         $callback = $path_to_include;
         if (!is_callable($callback) && !is_array($callback)) {
             if (!strpos($path_to_include, '.php')) {
@@ -85,7 +85,7 @@ class Router
         exit();
     }
 
-    /*public static function headers()
+    public static function headers()
     {
 
         header('Content-Type: application/json');   // MIME type for a json response
@@ -96,7 +96,7 @@ class Router
         header('Access-Control-Allow-Credentials: true');
 
 
-    }*/
+    }
 
     public static function post($route, $path_to_include, $valid_token = false)
     {

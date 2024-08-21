@@ -106,7 +106,7 @@
             $stmt->execute();
         }
 
-        public static function headers(){
+        /*public static function headers(){
             $allowedOrigins = ['*']; // Agrega aquí los orígenes permitidos
             $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
@@ -120,7 +120,8 @@
             header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization');
             header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
             header('Access-Control-Allow-Credentials: true');
-    }
+    }*/
+
 
 
     public static function sendCorrect($data=[]){
