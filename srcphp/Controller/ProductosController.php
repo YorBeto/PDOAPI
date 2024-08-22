@@ -55,24 +55,28 @@ class ProductosController
     }     
 
     public function eliminarProducto() {
-        // Leer datos del cuerpo de la solicitud
         $id = $_GET['id'] ?? '';
-
+    
         if (empty($id)) {
             echo json_encode(['success' => false, 'message' => 'ID del producto no proporcionado']);
             return;
         }
-
-        // Ejecutar consulta para eliminar el empleado
+    
+        // Verificar si el producto existe antes de eliminar
+        $producto = Table::query("SELECT * FROM PRODUCTOS_SERVICIOS WHERE ID_PRODUCTO = '$id'");
+        if (!$producto) {
+            echo json_encode(['success' => false, 'message' => 'El producto no existe']);
+            return;
+        }
+    
+        // Ejecutar consulta para eliminar el producto
         $query = "DELETE FROM PRODUCTOS_SERVICIOS WHERE ID_PRODUCTO = '$id'";
-
+    
         try {
             Table::query($query);
-            $r = new Success(['success' => true, 'message' => 'Producto eliminado con éxito']);
-            return $r->send();
+            echo json_encode(['success' => true, 'message' => 'Producto eliminado con éxito']);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => 'Error al eliminar el producto: ' . $e->getMessage()]);
-            return;
         }
     }
     public function generarOrdenVenta() {
