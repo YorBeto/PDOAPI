@@ -69,16 +69,23 @@ class EmpleadosController {
     public function eliminarEmpleado() {
         // Leer datos del cuerpo de la solicitud
         $id = $_GET['id'] ?? '';
-
+    
         if (empty($id)) {
             echo json_encode(['success' => false, 'message' => 'ID del empleado no proporcionado']);
             return;
         }
-
-        // Ejecutar consulta para eliminar el empleado
-        $query = "DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = '$id'";
-
+    
+        // Verificar si el empleado existe antes de eliminarlo
+        $queryCheck = "SELECT * FROM EMPLEADOS WHERE ID_EMPLEADO = '$id'";
         try {
+            $resultado = Table::query($queryCheck);
+            if (count($resultado) === 0) {
+                echo json_encode(['success' => false, 'message' => 'Empleado no encontrado']);
+                return;
+            }
+    
+            // Ejecutar consulta para eliminar el empleado
+            $query = "DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = '$id'";
             Table::query($query);
             $r = new Success(['success' => true, 'message' => 'Empleado eliminado con éxito']);
             return $r->send();
