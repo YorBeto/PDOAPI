@@ -3,7 +3,7 @@
         'name' => 'proyecto/oop',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9203dd774b27464d3da4b2cdaee5f12413147295',
+        'reference' => '14644bd52d716b91117ef987b6b095a2c1a30cae',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -46,6 +46,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.9.1',
+            'version' => '6.9.1.0',
+            'reference' => '039de174cd9c17a8389754d3b877a2ed22743e18',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.3',
             'version' => '1.9.3.0',
@@ -58,7 +67,7 @@
         'proyecto/oop' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9203dd774b27464d3da4b2cdaee5f12413147295',
+            'reference' => '14644bd52d716b91117ef987b6b095a2c1a30cae',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
