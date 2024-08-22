@@ -1,6 +1,6 @@
 <?php
 
-namespace proyecto\Controller;
+/*namespace proyecto\Controller;
 
 use proyecto\Models\Orden;
 use proyecto\Models\DetalleVenta;
@@ -64,3 +64,4 @@ class Carrito {
         }
     }
 }
+*/

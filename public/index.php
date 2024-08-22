@@ -89,9 +89,11 @@ Router::post('/editarclase', [ClasesController::class, "editarClase"]);
 Router::post('/inscribir', [ClasesController::class, "inscripcionClases"]);
 Router::post('/asistencia/registrar', [ClasesController::class, "registrarAsistencia"]);
 Router::post('/orden/crear', [CarritoController::class, "crearOrdenVenta"]);
-Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
+/*Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
 Router::post('/pago/registrar', [CarritoController::class, "registrarPago"]);
 Router::post('/carrito/compra', [CarritoController::class, "procesarCompra"]);
+*/
+Router::post('/compra', [ProductosController::class, "generarOrdenVenta"]);
 
 // Rutas DELETE //
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
