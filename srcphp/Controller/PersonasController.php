@@ -67,16 +67,26 @@ class PersonasController {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
             $mail->SMTPAuth = true;
-            $mail->Username = 'avinaluciano50@gmail.com'; // Tu dirección de correo de Gmail
-            $mail->Password = 'myot slzh nlec fxze'; // Contraseña de aplicación generada
+            $mail->Username = 'lukepastranam12@gmail.com'; // Tu dirección de correo de Gmail
+            $mail->Password = 'smoa gagw eeml kmyc'; // Contraseña de aplicación generada
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Configuración TLS
             $mail->Port = 587; // Puerto SMTP recomendado para STARTTLS
     
             // Configuración del correo
-            $mail->setFrom('avinaluciano50@gmail.com', 'Arsenal Gym Bosque'); // Dirección de correo del remitente
+            $mail->setFrom('lukepastranam12@gmail.com', 'Arsenal Gym Bosque'); // Dirección de correo del remitente
             $mail->addAddress($correo, $nombre); // Utiliza el correo del usuario registrado
             $mail->Subject = 'Te has registrado correctamente';
-            $mail->Body    = 'Bienvenido a Arsenal, ya puedes iniciar sesión.';
+            $mail->Body    = '
+                                <html>
+                                <body style="font-family: Arial, sans-serif; color: #333;">
+                                    <div style="text-align: center; padding: 20px;">
+                                        <h1 style="color: #FF0000;">Bienvenido a Arsenal Gym Bosque, ' . htmlspecialchars($nombre) . '!</h1>
+                                        <p>¡Nos alegra que te hayas registrado! Ahora puedes iniciar sesión y disfrutar de todos nuestros servicios.</p>
+                                        <p>Gracias por unirte a la comunidad de Arsenal Gym Bosque.</p>
+                                    </div>
+                                </body>
+                                </html>
+                            ';
             $mail->AltBody = 'Gracias por registrarte.';
     
             // Enviar el correo
