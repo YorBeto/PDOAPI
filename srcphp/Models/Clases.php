@@ -33,6 +33,8 @@ class Clases extends Models
         return $success->send();
     }
 
+
+
     public function registrarAsistencia($idSocioClase, $checkAsistencia) {
         $query = "CALL IngresarAsistencia('$idSocioClase', '$checkAsistencia')";
         return Table::query($query);
