@@ -24,6 +24,7 @@ use proyecto\Controller\ProductosController;
 use proyecto\Controller\EmpleadosController;
 use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
+use proyecto\Controller\CarritoController;
 
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
@@ -35,6 +36,7 @@ Router::post('/insertarproducto', [ProductosController::class, "insertarProducto
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
 Router::post('/registro',[PersonasController::class,"registroclientes"]);
 Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
+Router::post('/carrito',[CarritoController::class,"carritoEnviado"]);
 
 Router::post('/pago', [CarritoController::class, "Carrito"]);
 
