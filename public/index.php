@@ -13,6 +13,7 @@ use proyecto\Models\Categorias_productos;
 use proyecto\Models\Personas;
 use proyecto\Models\Empleados;
 use proyecto\Models\Clases;
+use proyecto\Models\Asistencias;
 use proyecto\Response\Failure;
 use proyecto\Response\Success;
 use proyecto\Controller\PersonasController;
@@ -24,25 +25,12 @@ use proyecto\Controller\EmpleadosController;
 use proyecto\Controller\CarritoController;
 use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
+use proyecto\Controller\AsistenciasController;
+
 
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
 
-//Metodos post//
-Router::post('/registro', [PersonasController::class, "registroclientes"]);
-Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
-Router::post('/insertarproducto', [ProductosController::class, "insertarProducto"]);
-Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
-Router::post('/registro',[PersonasController::class,"registroclientes"]);
-Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
-Router::post('/login',[LoginController::class,"login"]);
-
-Router::post('/pago', [CarritoController::class, "Carrito"]);
-
-
-// Rutas DELETE
-Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
-Router::delete('/empleado/eliminar', [EmpleadosController::class, "eliminarEmpleado"]);
 // Metodos get //
 Router::get('/prueba', function () {
     $data = [
@@ -65,6 +53,8 @@ Router::get('/productosinicio', [productos_servicios::class, "productosinicio"])
 Router::get('/producto', [ProductosController::class, "obtenerProductoPorId"]);
 Router::get('/clases', [Clases::class, "mostrarClases"]);
 Router::get('/alumnos', [Clases::class, "mostrarAlumnos"]);
+Router::get('/alumnosclase', [Asistencias::class, "mostrarAlumnosClase"]);
+Router::get('/asistencias', [Asistencias::class, "mostrarAsistencia"]);
 Router::get('/usuario/buscar/$id', function ($id) {
     $user = User::find($id);
     if (!$user) {

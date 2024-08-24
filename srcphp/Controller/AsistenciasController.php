@@ -5,6 +5,7 @@ namespace proyecto\Controller;
 use proyecto\Models\Asistencias;
 use proyecto\Response\Success;
 use Exception;
+use Mpdf\Mpdf;
 
 class AsistenciasController 
 {
