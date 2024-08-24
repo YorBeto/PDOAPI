@@ -53,7 +53,8 @@ class User extends Models
                         p.NOMBRE AS nombre,            
                         p.APELLIDO AS apellido,           
                         p.CORREO AS correo,   
-                        CLIENTES.FECHA_REGISTRO,           
+                        CLIENTES.FECHA_REGISTRO,
+                        CLIENTES.ID_CLIENTES,           
                         u.ID_USUARIO AS id_usuario,       
                         CAST(AES_DECRYPT(u.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
                     FROM {$c->table} u
@@ -69,7 +70,8 @@ class User extends Models
                         p.APELLIDO AS apellido,           
                         p.CORREO AS correo,               
                         u.ID_USUARIO AS id_usuario,       
-                        socios.ID_SOCIO AS id_socio,      
+                        socios.ID_SOCIO AS id_socio,
+                        CLIENTES.ID_CLIENTES,      
                         CAST(AES_DECRYPT(u.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
                     FROM socios
                     INNER JOIN clientes ON socios.ID_CLIENTE = clientes.ID_CLIENTES
@@ -96,6 +98,7 @@ class User extends Models
                         'apellido' => $resultado->apellido,
                         'correo' => $resultado->correo,
                         'FECHA_REGISTRO' => $resultado->FECHA_REGISTRO,
+                        'ID_CLIENTES' => $resultado->ID_CLIENTES,
                         'id_usuario' => $resultado->id_usuario,
                         'id_socio' => $resultado->id_socio ?? null,
                         'tipoUsuario' => $tipoUsuario // Añadido
