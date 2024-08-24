@@ -13,7 +13,8 @@
         "vlucas/phpdotenv": "^5.5",
         "nesbot/carbon": "^2.68",
         "firebase/php-jwt": "^6.8",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "mpdf/mpdf": "^6.1"
     },
     "autoload": {
         "psr-4": {
