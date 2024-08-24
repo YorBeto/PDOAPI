@@ -35,7 +35,6 @@ Router::post('/insertarproducto', [ProductosController::class, "insertarProducto
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
 Router::post('/registro',[PersonasController::class,"registroclientes"]);
 Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
-Router::post('/login',[LoginController::class,"login"]);
 
 Router::post('/pago', [CarritoController::class, "Carrito"]);
 
