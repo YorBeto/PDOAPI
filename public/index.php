@@ -21,23 +21,19 @@ use proyecto\Controller\LoginController;
 use proyecto\Controller\LoginSociosController;
 use proyecto\Controller\ProductosController;
 use proyecto\Controller\EmpleadosController;
-use proyecto\Controller\CarritoController;
 use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
-
+use proyecto\Controller\CarritoController;
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
 
 //Metodos post//
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
-Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
 Router::post('/insertarproducto', [ProductosController::class, "insertarProducto"]);
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
-Router::post('/registro',[PersonasController::class,"registroclientes"]);
 Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
-Router::post('/login',[LoginController::class,"login"]);
+Router::post('/carrito',[CarritoController::class,"carritoEnviado"]);
 
-Router::post('/pago', [CarritoController::class, "Carrito"]);
 
 
 // Rutas DELETE
@@ -78,8 +74,7 @@ Router::get('/respuesta', [crearPersonaController::class, "response"]);
 
 // Metodos POST //
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
-Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
-Router::post('/loginClientes', [LoginController::class, "login"]);
+Router::post('/login', [LoginController::class, "login"]);
 Router::post('/insertarProducto', [ProductosController::class, "insertarproducto"]);
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarproducto"]);
 Router::post('/registroEmpleados', [EmpleadosController::class, "registroempleados"]);
@@ -87,12 +82,6 @@ Router::post('/agregarclase', [ClasesController::class, "agregarClase"]);
 Router::post('/editarclase', [ClasesController::class, "editarClase"]);
 Router::post('/inscribir', [ClasesController::class, "inscripcionClases"]);
 Router::post('/asistencia/registrar', [ClasesController::class, "registrarAsistencia"]);
-Router::post('/orden/crear', [CarritoController::class, "crearOrdenVenta"]);
-/*Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
-Router::post('/pago/registrar', [CarritoController::class, "registrarPago"]);
-Router::post('/carrito/compra', [CarritoController::class, "procesarCompra"]);
-*/
-Router::post('/compra', [ProductosController::class, "generarOrdenVenta"]);
 
 // Rutas DELETE //
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
