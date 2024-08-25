@@ -79,35 +79,8 @@ class ProductosController
             echo json_encode(['success' => false, 'message' => 'Error al eliminar el producto: ' . $e->getMessage()]);
         }
     }
-    public function generarOrdenVenta() {
-        
-           $input = file_get_contents('php://input');
-    $dataObject = json_decode($input);
+    
+   
 
-        $idCliente = $dataObject->idCliente;
-        $idProducto = $dataObject->idProducto;
-        $Cantidad = $dataObject->Cantidad;
-        $FormaPago = $dataObject->FormaPago;
-
-        // Preparar la consulta para llamar al procedimiento almacenado
-        $query = "CALL GenerarOrdenVenta(
-           '$idCliente',
-           '$idProducto',
-           '$Cantidad',
-           '$FormaPago'
-        )";
-
-        // Ejecutar la consulta y manejar la respuesta
-        try {
-            Table::query($query);
-            $respuesta = new Success(['success' => true, 'message' => 'Orden de venta generada exitosamente.']);
-            return $respuesta->send();
-        } catch (Exception $e) {
-            // Manejar errores específicos del procedimiento almacenado
-            // Por ejemplo, errores de stock insuficiente
-            echo json_encode(['success' => false, 'message' => 'Error al generar la orden de venta: ' . $e->getMessage()]);
-            return;
-        }
-    }
    
 }

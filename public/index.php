@@ -25,6 +25,7 @@ use proyecto\Controller\EmpleadosController;
 use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
 use proyecto\Controller\CarritoController;
+use proyecto\Controller\AdminEntregasController;
 
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
@@ -56,6 +57,7 @@ Router::get('/prueba', function () {
     return $r->Send();
 });
 Router::get('/empleados', [Empleados::class, "mostrarEmpleados"]);
+Router::get('/AdminProductos/Entregas', [AdminEntregasController::class, "AdminEntregas"]);
 Router::get('/empleado/obtener', [EmpleadosController::class, "obtenerEmpleadoPorId"]);
 Router::get('/socios', [MostrarSociosController::class, "mostrarsocios"]);
 Router::get('/categorias', [Categorias_productos::class, "obtenerCategorias"]);

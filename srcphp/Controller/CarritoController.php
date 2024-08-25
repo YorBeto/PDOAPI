@@ -19,16 +19,7 @@ class CarritoController{
             $currentDate = date('Y-m-d H:i:s');
             Table::query("INSERT INTO ORDEN_VENTA (ID_CLIENTE, FECHA_ORDEN, ESTATUS) VALUES ('$idCliente', '$currentDate', 0)");
             $ordenId = Table::query("SELECT ID_ORDEN AS ID_ORDEN FROM ORDEN_VENTA WHERE ID_CLIENTE = '$idCliente' AND ESTATUS = 0");
-            //AL select agregar el campo status como filtro
-            /*
-            0- Pendiente
-            1- Confirmado
-            2- Cancelado
-
-            Utilizar pendiente en el select osea el 0
-            Esto para traer la orden exacta del usuario y que sea la ultima
-            no cuente las otras ordenes hechas por eso el status
-            */
+          
             return $ordenId[0]->ID_ORDEN;
         } catch (Exception $e) {
             Table::rollback();
@@ -57,7 +48,7 @@ class CarritoController{
                 (ID_ORDEN,ID_PRODUCTO, CANTIDAD, TOTAL) VALUES 
                 ('$ordenVenta', '$producto->idProducto','$producto->Cantidad', '$total')");
             }
-            Table::query("INSERT INTO PAGOS (ID_ORDEN, FORMA_PAGO, ESTADO_PAGO) VALUES ('$ordenVenta', 'TARJETA', 'LIQUIDADO')");
+            Table::query("INSERT INTO PAGOS (ID_ORDEN, FORMA_PAGO, ESTADO_PAGO,ESTADO_ENTREGA) VALUES ('$ordenVenta', 'TARJETA', 'LIQUIDADO','PENDIENTE')");
             Table::query("UPDATE ORDEN_VENTA SET ESTATUS = 1 WHERE ID_ORDEN = '$ordenVenta'");
             Table::commit();
             echo json_encode(['success' => true, 'message' => 'Orden de venta generada exitosamente']);
