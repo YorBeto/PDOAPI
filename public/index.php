@@ -98,6 +98,9 @@ Router::post('/compra', [ProductosController::class, "generarOrdenVenta"]);
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
 Router::delete('/empleado/eliminar', [EmpleadosController::class, "eliminarEmpleado"]);
 
+// PUT
+Router::put('/productoeditar',[ProductosController::class, "editarproductos"]);
+
 // Ruta para manejar errores 404 //
 Router::any('/404', '../views/404.php');
 
