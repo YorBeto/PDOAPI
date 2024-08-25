@@ -13,6 +13,7 @@ use proyecto\Models\Categorias_productos;
 use proyecto\Models\Personas;
 use proyecto\Models\Empleados;
 use proyecto\Models\Clases;
+use proyecto\Models\Asistencias;
 use proyecto\Response\Failure;
 use proyecto\Response\Success;
 use proyecto\Controller\PersonasController;
@@ -21,9 +22,10 @@ use proyecto\Controller\LoginController;
 use proyecto\Controller\LoginSociosController;
 use proyecto\Controller\ProductosController;
 use proyecto\Controller\EmpleadosController;
-use proyecto\Controller\CarritoController;
 use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
+use proyecto\Controller\CarritoController;
+use proyecto\Controller\AdminEntregasController;
 
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
@@ -35,7 +37,7 @@ Router::post('/insertarproducto', [ProductosController::class, "insertarProducto
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarProducto"]);
 Router::post('/registro',[PersonasController::class,"registroclientes"]);
 Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
-Router::post('/login',[LoginController::class,"login"]);
+Router::post('/carrito',[CarritoController::class,"carritoEnviado"]);
 
 Router::post('/pago', [CarritoController::class, "Carrito"]);
 
@@ -55,6 +57,7 @@ Router::get('/prueba', function () {
     return $r->Send();
 });
 Router::get('/empleados', [Empleados::class, "mostrarEmpleados"]);
+Router::get('/AdminProductos/Entregas', [AdminEntregasController::class, "AdminEntregas"]);
 Router::get('/empleado/obtener', [EmpleadosController::class, "obtenerEmpleadoPorId"]);
 Router::get('/socios', [MostrarSociosController::class, "mostrarsocios"]);
 Router::get('/categorias', [Categorias_productos::class, "obtenerCategorias"]);
@@ -65,6 +68,8 @@ Router::get('/productosinicio', [productos_servicios::class, "productosinicio"])
 Router::get('/producto', [ProductosController::class, "obtenerProductoPorId"]);
 Router::get('/clases', [Clases::class, "mostrarClases"]);
 Router::get('/alumnos', [Clases::class, "mostrarAlumnos"]);
+Router::get('/alumnosclase', [Asistencias::class, "mostrarAlumnosClase"]);
+Router::get('/asistencias', [Asistencias::class, "mostrarAsistencia"]);
 Router::get('/usuario/buscar/$id', function ($id) {
     $user = User::find($id);
     if (!$user) {
@@ -76,10 +81,16 @@ Router::get('/usuario/buscar/$id', function ($id) {
 });
 Router::get('/respuesta', [crearPersonaController::class, "response"]);
 
+Router::get('/ventasproductos', [productos_servicios::class, "ventasDelMesActual"]);
+Router::get('/ordenes', [productos_servicios::class, "ordenesDelMesActual"]);
+Router::get('/membresias', [productos_servicios::class, "membresiasDelMesActual"]);
+
+
+
+
 // Metodos POST //
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
-Router::post('/loginSocios', [LoginSociosController::class, "loginsocios"]);
-Router::post('/loginClientes', [LoginController::class, "login"]);
+Router::post('/login', [LoginController::class, "login"]);
 Router::post('/insertarProducto', [ProductosController::class, "insertarproducto"]);
 Router::post('/producto/actualizar', [ProductosController::class, "actualizarproducto"]);
 Router::post('/registroEmpleados', [EmpleadosController::class, "registroempleados"]);
@@ -87,12 +98,6 @@ Router::post('/agregarclase', [ClasesController::class, "agregarClase"]);
 Router::post('/editarclase', [ClasesController::class, "editarClase"]);
 Router::post('/inscribir', [ClasesController::class, "inscripcionClases"]);
 Router::post('/asistencia/registrar', [ClasesController::class, "registrarAsistencia"]);
-Router::post('/orden/crear', [CarritoController::class, "crearOrdenVenta"]);
-/*Router::post('/producto/agregar', [CarritoController::class, "agregarProductoDetalle"]);
-Router::post('/pago/registrar', [CarritoController::class, "registrarPago"]);
-Router::post('/carrito/compra', [CarritoController::class, "procesarCompra"]);
-*/
-Router::post('/compra', [ProductosController::class, "generarOrdenVenta"]);
 
 // Rutas DELETE //
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);

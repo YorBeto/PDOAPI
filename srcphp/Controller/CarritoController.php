@@ -1,67 +1,62 @@
 <?php
 
-/*namespace proyecto\Controller;
+namespace proyecto\Controller;
 
-use proyecto\Models\Orden;
-use proyecto\Models\DetalleVenta;
-use proyecto\Models\Pago;
+
+use proyecto\Models\Table;
 use proyecto\Response\Success;
-use proyecto\Response\Failure;
 
-class Carrito {
-    private $db;
+class CarritoController{
 
-    public function __construct($db) {
-        $this->db = $db;
-    }
+    public function generarOrdenV($idCliente) {
+        try {
 
-    public function crearOrdenVenta($request) {
-        // Extraer datos del request
-        $data = json_decode($request->getBody(), true);
-        $idCliente = $data['email']; // Usa el correo para buscar ID_CLIENTE
-        $idOrden = 'OV00017'; // Generar ID de la orden (podrías hacerlo dinámico)
-        $idEmpleado = 'E0001'; // ID del empleado por default
-        $fechaOrden = date('Y-m-d H:i:s');
-
-        $ordenModel = new Orden($this->db);
-        $result = $ordenModel->crearOrden($idOrden, $idCliente, $idEmpleado, $fechaOrden);
-
-        if ($result) {
-            foreach ($data['productos'] as $producto) {
-                $detalleVentaModel = new DetalleVenta($this->db);
-                $detalleResult = $detalleVentaModel->agregarDetalle(
-                    $idOrden,
-                    $producto['ID_PRODUCTO'],
-                    $producto['cantidad'],
-                    $producto['PRECIO'] * $producto['cantidad']
-                );
-
-                if (!$detalleResult) {
-                    return new Failure(500, "Error al crear el detalle de venta");
-                }
+            $ordenPendiente = Table::query("SELECT ID_ORDEN FROM ORDEN_VENTA WHERE ID_CLIENTE = '$idCliente' AND ESTATUS = 0");
+            if (!empty($ordenPendiente)) {
+                return $ordenPendiente[0]->ID_ORDEN;
             }
 
-            return new Success(['idOrden' => $idOrden]);
-        } else {
-            return new Failure(500, "Error al crear la orden de venta");
+            $currentDate = date('Y-m-d H:i:s');
+            Table::query("INSERT INTO ORDEN_VENTA (ID_CLIENTE, FECHA_ORDEN, ESTATUS) VALUES ('$idCliente', '$currentDate', 0)");
+            $ordenId = Table::query("SELECT ID_ORDEN AS ID_ORDEN FROM ORDEN_VENTA WHERE ID_CLIENTE = '$idCliente' AND ESTATUS = 0");
+          
+            return $ordenId[0]->ID_ORDEN;
+        } catch (Exception $e) {
+            Table::rollback();
+            return false;
         }
     }
 
-    public function registrarPago($request) {
-        $data = json_decode($request->getBody(), true);
-        $idPago = 'PAG0003'; // Generar ID de pago (podrías hacerlo dinámico)
-        $idOrden = $data['idOrden'];
-        $formaPago = 'TARJETA';
-        $estadoPago = 'LIQUIDADO';
 
-        $pagoModel = new Pago($this->db);
-        $result = $pagoModel->registrarPago($idPago, $idOrden, $formaPago, $estadoPago);
+    public function carritoEnviado(){
+        $input = file_get_contents('php://input');
+        $dataObject = json_decode($input);
 
-        if ($result) {
-            return new Success(['idPago' => $idPago]);
-        } else {
-            return new Failure(500, "Error al registrar el pago");
+        $idCliente = $dataObject->idCliente;
+        $carrito = $dataObject->carrito;
+
+        try {
+            Table::beginTransaction();
+            $ordenVenta = $this->generarOrdenV($idCliente);
+            if ($ordenVenta == false) {
+                echo json_encode(['success' => false, 'message' => 'Error al generar la orden de venta']);
+                return;
+            }
+            foreach ($carrito as $producto) {
+                $total = $producto->Cantidad * $producto->Precio;
+                Table::query("INSERT INTO DETALLE_VENTA 
+                (ID_ORDEN,ID_PRODUCTO, CANTIDAD, TOTAL) VALUES 
+                ('$ordenVenta', '$producto->idProducto','$producto->Cantidad', '$total')");
+            }
+            Table::query("INSERT INTO PAGOS (ID_ORDEN, FORMA_PAGO, ESTADO_PAGO,ESTADO_ENTREGA) VALUES ('$ordenVenta', 'TARJETA', 'LIQUIDADO','PENDIENTE')");
+            Table::query("UPDATE ORDEN_VENTA SET ESTATUS = 1 WHERE ID_ORDEN = '$ordenVenta'");
+            Table::commit();
+            echo json_encode(['success' => true, 'message' => 'Orden de venta generada exitosamente']);
+        } catch (Exception $e) {
+            Table::rollBack();
+            echo json_encode(['success' => false, 'message' => 'Error al enviar el carrito: ' . $e->getMessage()]);
         }
+
     }
+    
 }
-*/

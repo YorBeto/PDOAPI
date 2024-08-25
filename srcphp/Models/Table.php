@@ -28,6 +28,28 @@ static function query($query)
     $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
     return $resultados;
 }
+static function beginTransaction()
+    {
+        if (self::$pdo === null) {
+            $cc = new Conexion('arsenal_gym', 'localhost', 'root', '');
+            self::$pdo = $cc->getPDO();
+        }
+        self::$pdo->beginTransaction();
+    }
+
+    static function commit()
+    {
+        if (self::$pdo !== null) {
+            self::$pdo->commit();
+        }
+    }
+
+    static function rollBack()
+    {
+        if (self::$pdo !== null) {
+            self::$pdo->rollBack();
+        }
+    }
 
 
 }

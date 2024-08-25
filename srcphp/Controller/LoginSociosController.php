@@ -5,6 +5,7 @@ namespace proyecto\Controller;
 use proyecto\Models\User;
 use proyecto\Response\Success;
 use proyecto\Response\Failure;
+use Exception;
 
 class LoginSociosController
 {
@@ -21,11 +22,6 @@ class LoginSociosController
         // Obtén los datos del JSON
         $identificador = $input['usuario'] ?? null; // Puede ser ID de socio o correo
         $contrasena = $input['contrasena'] ?? null;
-    
-        // Verifica los datos recibidos
-        if (!$identificador || !$contrasena) {
-            return (new Failure(["msg" => "Datos incompletos."], 400))->Send();
-        }
     
         // Utiliza el método auth para autenticar clientes o socios
         $resultado = User::auth($identificador, $contrasena);

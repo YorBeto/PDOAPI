@@ -71,6 +71,7 @@ class User extends Models
                         p.CORREO AS correo,               
                         u.ID_USUARIO AS id_usuario,       
                         socios.ID_SOCIO AS id_socio,
+                        CLIENTES.FECHA_REGISTRO,
                         CLIENTES.ID_CLIENTES,      
                         CAST(AES_DECRYPT(u.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
                     FROM socios
@@ -89,7 +90,7 @@ class User extends Models
     
             if ($resultado && $resultado->contrasena === $contrasena) {
    
-                $tipoUsuario = $resultado->id_socio ? 'socio' : 'cliente';
+                $tipoUsuario = $resultado->id_socio   ? 'socio' : 'cliente';
     
                 return [
                     'success' => true,

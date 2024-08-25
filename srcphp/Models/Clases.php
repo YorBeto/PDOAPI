@@ -28,10 +28,13 @@ class Clases extends Models
                                             JOIN SOCIOS S ON SC.ID_SOCIO = S.ID_SOCIO
                                             JOIN CLIENTES CL ON S.ID_CLIENTE = CL.ID_CLIENTES
                                             JOIN PERSONA P ON CL.ID_PERSONA = P.ID_PERSONA
+                                            WHERE SC.ACTUALIDAD = 'ACTIVO'
                                             ORDER BY P.APELLIDO, P.NOMBRE;");
         $success = new Success($todaslosalumnos);
         return $success->send();
     }
+
+
 
     public function registrarAsistencia($idSocioClase, $checkAsistencia) {
         $query = "CALL IngresarAsistencia('$idSocioClase', '$checkAsistencia')";
