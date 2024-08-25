@@ -81,6 +81,13 @@ Router::get('/usuario/buscar/$id', function ($id) {
 });
 Router::get('/respuesta', [crearPersonaController::class, "response"]);
 
+Router::get('/ventasproductos', [productos_servicios::class, "ventasDelMesActual"]);
+Router::get('/ordenes', [productos_servicios::class, "ordenesDelMesActual"]);
+Router::get('/membresias', [productos_servicios::class, "membresiasDelMesActual"]);
+
+
+
+
 // Metodos POST //
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
 Router::post('/login', [LoginController::class, "login"]);
