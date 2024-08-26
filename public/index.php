@@ -26,6 +26,7 @@ use proyecto\Controller\crearPersonaController;
 use proyecto\Controller\ClasesController;
 use proyecto\Controller\CarritoController;
 use proyecto\Controller\AdminEntregasController;
+use proyecto\Controller\HistorialComprasController;
 
 // Metodo header para poder recibir solicitudes de cualquier dominio //
 Router::headers();
@@ -38,7 +39,7 @@ Router::post('/producto/actualizar', [ProductosController::class, "actualizarPro
 Router::post('/registro',[PersonasController::class,"registroclientes"]);
 Router::post('/registroEmpleados',[EmpleadosController::class,"registroempleados"]);
 Router::post('/carrito',[CarritoController::class,"carritoEnviado"]);
-
+Router::post('/miscompras', [HistorialComprasController::class, "historial"]);
 Router::post('/pago', [CarritoController::class, "Carrito"]);
 
 
