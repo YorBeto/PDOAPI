@@ -37,16 +37,17 @@ class productos_servicios extends Models
                                     P.NOMBRE AS CLIENTE,
                                     GROUP_CONCAT(PS.NOMBRE SEPARATOR ', ') AS 'PRODUCTOS COMPRADOS',
                                     SUM(DV.TOTAL) AS MONTO_TOTAL,
-                                    PA.ESTADO_ENTREGA AS 'ESTADO DE ENTREGA'
+                                    DV.ESTADO_ENTREGA AS 'ESTADO DE ENTREGA'
                                 FROM ORDEN_VENTA OV
                                 INNER JOIN CLIENTES C ON OV.ID_CLIENTE = C.ID_CLIENTES
                                 INNER JOIN PERSONA P ON C.ID_PERSONA = P.ID_PERSONA
                                 INNER JOIN DETALLE_VENTA DV ON OV.ID_ORDEN = DV.ID_ORDEN
                                 INNER JOIN PRODUCTOS_SERVICIOS PS ON DV.ID_PRODUCTO = PS.ID_PRODUCTO
-                                INNER JOIN PAGOS PA ON OV.ID_ORDEN = PA.ID_ORDEN
-                                WHERE PA.ESTADO_ENTREGA = 'PENDIENTE'
-                                GROUP BY OV.ID_ORDEN, P.NOMBRE
-                                ORDER BY OV.ID_ORDEN;");
+                                WHERE DV.ESTADO_ENTREGA = 'PENDIENTE'
+                                AND PS.ID_CATEGORIA <> 'CAT05'
+                                GROUP BY OV.ID_ORDEN, P.NOMBRE, DV.ESTADO_ENTREGA
+                                ORDER BY OV.ID_ORDEN;
+                                ");
 
         $success = new Success($ordenes);
         return $success->send();
@@ -59,16 +60,17 @@ class productos_servicios extends Models
                                     P.NOMBRE AS CLIENTE,
                                     GROUP_CONCAT(PS.NOMBRE SEPARATOR ', ') AS 'PRODUCTOS COMPRADOS',
                                     SUM(DV.TOTAL) AS MONTO_TOTAL,
-                                    PA.ESTADO_ENTREGA AS 'ESTADO DE ENTREGA'
+                                    DV.ESTADO_ENTREGA AS 'ESTADO DE ENTREGA'
                                 FROM ORDEN_VENTA OV
                                 INNER JOIN CLIENTES C ON OV.ID_CLIENTE = C.ID_CLIENTES
                                 INNER JOIN PERSONA P ON C.ID_PERSONA = P.ID_PERSONA
                                 INNER JOIN DETALLE_VENTA DV ON OV.ID_ORDEN = DV.ID_ORDEN
                                 INNER JOIN PRODUCTOS_SERVICIOS PS ON DV.ID_PRODUCTO = PS.ID_PRODUCTO
-                                INNER JOIN PAGOS PA ON OV.ID_ORDEN = PA.ID_ORDEN
-                                WHERE PA.ESTADO_ENTREGA = 'ENTREGADO'
-                                GROUP BY OV.ID_ORDEN, P.NOMBRE
-                                ORDER BY OV.ID_ORDEN;");
+                                WHERE DV.ESTADO_ENTREGA = 'ENTREGADO'
+                                AND PS.ID_CATEGORIA <> 'CAT05'
+                                GROUP BY OV.ID_ORDEN, P.NOMBRE, DV.ESTADO_ENTREGA
+                                ORDER BY OV.ID_ORDEN;
+                                ");
 
         $success = new Success($ordenes);
         return $success->send();
