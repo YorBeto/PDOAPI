@@ -109,4 +109,69 @@ class ProductosController
             return;
         }
     }
+
+    public function editarproductos() {
+
+        $JSONData = file_get_contents("php://input");
+        $data = json_decode ($JSONData, true);
+
+        $idProducto= $data ['ID_PRODUCTO'];
+
+        $stmt = $this -> PDO() -> prepare ("UPDATE productos_servicios SET NOMBRE = :NOMBRE, DESCRIPCION = :DESCRIPCION, PRECIO = :PRECIO, STOCK = :STOCK WHERE ID_PRODUCTO = :ID_PRODUCTO");
+
+        $stmt->bindParam(':NOMBRE', $data['NOMBRE']);
+        $stmt->bindParam(':DESCRIPCION', $data['DESCRIPCION']);
+        $stmt->bindParam(':PRECIO', $data['PRECIO']);
+        $stmt->bindParam(':STOCK', $data['STOCK']);
+        $stmt->bindParam(':ID_PRODUCTO', $idProducto);
+
+        try {
+            $stmt->execute();
+            echo json_encode(['success' => true, 'message' => 'Producto editado con éxito']);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error al editar el producto: ' . $e->getMessage()]);
+        }
+
+        if (isset($data['ID_CATEGORIA'])){
+            $stmtCATEGORIA = $this->PDO()->prepare("UPDATE categoria_productos SET NOMBRE = :NOMBRE WHERE ID_PRODUCTO = :ID_PRODUCTO ");
+            $stmtCATEGORIA->bindParam(':NOMBRE', $data['NOMBRE']);
+            $stmtCATEGORIA->bindParam(':ID_PRODUCTO', $idProducto);
+
+            $stmtCATEGORIA->execute();
+
+        }
+
+    }
+    private function PDO() {
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=arsenal_gym', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        } catch (PDOException $e) {
+            return json_encode(['error' => 'Error de conexión: ' . $e->getMessage()]);
+        }
+    }
+    public function marcarComoEntregada()
+    {
+        
+        $input = file_get_contents('php://input');
+        $dataObject = json_decode($input);
+
+        $idPago = $dataObject->idPago;
+
+        // Preparar la consulta para llamar al procedimiento almacenado
+        $query = "CALL CambiarEstadoEntregaAEntregado(
+           '$idPago'
+        )";
+
+        // Ejecutar la consulta y manejar la respuesta
+        try {
+            Table::query($query);
+            $respuesta = new Success(['success' => true, 'message' => 'Orden de venta generada exitosamente.']);
+            return $respuesta->send();
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error al generar la orden de venta: ' . $e->getMessage()]);
+            return;
+        }
+    }
 }

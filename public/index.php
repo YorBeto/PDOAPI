@@ -57,6 +57,9 @@ Router::get('/prueba', function () {
     $r= new Success($data);
     return $r->Send();
 });
+
+
+
 Router::get('/empleados', [Empleados::class, "mostrarEmpleados"]);
 Router::get('/AdminProductos/Entregas', [AdminEntregasController::class, "AdminEntregas"]);
 Router::get('/empleado/obtener', [EmpleadosController::class, "obtenerEmpleadoPorId"]);
@@ -64,6 +67,21 @@ Router::get('/socios', [MostrarSociosController::class, "mostrarsocios"]);
 Router::get('/categorias', [Categorias_productos::class, "obtenerCategorias"]);
 Router::get('/crearpersona', [crearPersonaController::class, "crearPersona"]);
 Router::get('/productos', [productos_servicios::class, "mostrarProductos"]);
+
+Router::get('/ventasproductos', function() {
+    $filtroTiempo = $_GET['filtro'] ?? 'mes'; // Obtener filtro de tiempo de los parámetros de la URL, por defecto 'mes'
+    (new productos_servicios())->ventasPorTiempo($filtroTiempo);
+});
+Router::get('/ordenes', function() {
+    $filtroTiempo = $_GET['filtro'] ?? 'mes';
+    (new productos_servicios())->ordenesPorTiempo($filtroTiempo);
+});
+
+Router::get('/membresias', function() {
+    $filtroTiempo = $_GET['filtro'] ?? 'mes';
+    (new productos_servicios())->membresiasPorTiempo($filtroTiempo);
+});
+
 Router::get('/adminproductos', [productos_servicios::class, "mostrarProductosAdmin"]);
 Router::get('/productosinicio', [productos_servicios::class, "productosinicio"]);
 Router::get('/producto', [ProductosController::class, "obtenerProductoPorId"]);
@@ -87,7 +105,8 @@ Router::get('/ordenes', [productos_servicios::class, "ordenesDelMesActual"]);
 Router::get('/membresias', [productos_servicios::class, "membresiasDelMesActual"]);
 
 
-
+Router::get('/mostrarordenes', [productos_servicios::class, "mostrarOrdenes"]);
+Router::get('/mostrarentregas', [productos_servicios::class, "mostrarOrdenesEntregadas"]);
 
 // Metodos POST //
 Router::post('/registro', [PersonasController::class, "registroclientes"]);
@@ -99,6 +118,8 @@ Router::post('/agregarclase', [ClasesController::class, "agregarClase"]);
 Router::post('/editarclase', [ClasesController::class, "editarClase"]);
 Router::post('/inscribir', [ClasesController::class, "inscripcionClases"]);
 Router::post('/asistencia/registrar', [ClasesController::class, "registrarAsistencia"]);
+
+Router::post('/marcarcomoentregada', [ProductosController::class, "marcarComoEntregada"]);
 
 // Rutas DELETE //
 Router::delete('/producto/eliminar', [ProductosController::class, "eliminarProducto"]);
