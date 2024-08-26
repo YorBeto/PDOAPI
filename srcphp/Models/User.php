@@ -54,12 +54,14 @@ class User extends Models
                         p.APELLIDO AS apellido,           
                         p.CORREO AS correo,   
                         CLIENTES.FECHA_REGISTRO,
-                        CLIENTES.ID_CLIENTES,           
+                        CLIENTES.ID_CLIENTES, 
+                        SOCIOS.ID_SOCIO AS id_socio,      
                         u.ID_USUARIO AS id_usuario,       
                         CAST(AES_DECRYPT(u.CONTRASEÑA, :clave_encriptacion) AS CHAR) AS contrasena
                     FROM {$c->table} u
                     INNER JOIN PERSONA p ON u.ID_USUARIO = p.ID_USUARIO
                     INNER JOIN CLIENTES on p.ID_PERSONA=CLIENTES.ID_PERSONA
+                    INNER JOIN SOCIOS ON SOCIOS.ID_CLIENTE=CLIENTES.ID_CLIENTES
                     WHERE p.CORREO = :identificador
                 ");
             } else {
@@ -102,7 +104,7 @@ class User extends Models
                         'ID_CLIENTES' => $resultado->ID_CLIENTES,
                         'id_usuario' => $resultado->id_usuario,
                         'id_socio' => $resultado->id_socio ?? null,
-                        'tipoUsuario' => $tipoUsuario // Añadido
+                        'tipoUsuario' => $tipoUsuario 
                     ],
                     '_token' => Auth::generateToken([$resultado->id_usuario ?? $resultado->id_socio])
                 ];
